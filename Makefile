@@ -1,5 +1,5 @@
 NAME = ft_retro
-SRC = *.cpp #CHANGE!!!!!!!!!!!!!!!!!!
+SRC = main.cpp Game.cpp Player.cpp
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.cpp=.o))
 OBJ_DIR = objects
 CC = clang++
@@ -18,3 +18,5 @@ clean:
 fclean: clean
 	rm -f $(NAME)
 re: fclean all
+run: re
+	./$(NAME)
