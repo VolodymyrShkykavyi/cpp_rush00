@@ -20,7 +20,7 @@ void Player::moveUp() {
 }
 
 void Player::moveDown() {
-    if (_yPos < _winHeight)
+    if (_yPos < _winHeight - 1)
         _yPos++;
 }
 
@@ -30,7 +30,7 @@ void Player::moveLeft() {
 }
 
 void Player::moveRight() {
-    if (_xPos < _winWidth)
+    if (_xPos < _winWidth - 1)
         _xPos++;
 }
 

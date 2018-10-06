@@ -4,10 +4,12 @@
 #include <iostream>
 #include <string>
 //#include <sys/time.h>
+#include <cstdlib>
 #include <ctime>
 #include <ncurses.h>
 
 #include "Player.hpp"
+#include "Menu.hpp"
 
 #define MIN_WIDTH 20
 #define MIN_HEIGHT 10
@@ -19,12 +21,12 @@ private:
     WINDOW *w_main;
     WINDOW *w_info;
     bool _pause;
+    bool _game;
     int _termWidth;
     int _termHeight;
 
-
     Player  *_player;
-
+    Menu    *_menu;
 
     void    initNcurses();
     void    drawInfo();
