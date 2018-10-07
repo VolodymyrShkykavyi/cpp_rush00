@@ -52,16 +52,13 @@ void Game::drawInfo() {
 	}
 	unsigned seconds = difftime(time(0), _player->getTime());
 	mvwprintw(w_info, 1, 2, "Time in game: %d:%0.2d", seconds / 60, seconds % 60);
-	mvwprintw(w_info, 1, _termWidth - 6, "%d", _player->getHp());
-	// for (int i = 0; i < _player->getHp(); i++){
-	// 	mvwprintw(w_info, 1, , "❤️");
-	// 	startPos += 3;
-	// }
-
-	//lives
-	//scores
-	//time
-
+	mvwprintw(w_info, 1, _termWidth - 6, "%d", _player->getScore());
+	
+	int mid = _termWidth/2;
+	for (int i = 0; i < _player->getHp(); i++){
+		mvwprintw(w_info, 1, mid, "❤️");
+		mid += 3;
+	}
 }
 
 void Game::drawMain() {
@@ -97,6 +94,7 @@ void Game::run() {
         checkEnemyCollision();
 
         wclear(this->w_main);
+        wclear(this->w_info);
         drawMain();
         drawInfo();
         wrefresh(this->w_main);
