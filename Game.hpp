@@ -10,6 +10,7 @@
 #define TEXT_RED 4
 #define TEXT_BLUE 5
 #define SIMPLE_ENEMY_MAX 50
+#define MIDDLE_ENEMY_MAX 10
 
 #include <iostream>
 #include <string>
@@ -21,6 +22,7 @@
 #include "Player.hpp"
 #include "Menu.hpp"
 #include "SimpleEnemy.hpp"
+#include "MiddleEnemy.hpp"
 
 
 class Menu;
@@ -36,6 +38,8 @@ private:
 
     Player  *_player;
     SimpleEnemy *_enemies_simple[SIMPLE_ENEMY_MAX];
+    MiddleEnemy *_enemies_middle[MIDDLE_ENEMY_MAX];
+    Bullet *_enemies_bullets[ENEMY_BULLETS_MAX];
     Menu    *_menu;
 
     void    initNcurses();

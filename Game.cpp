@@ -56,7 +56,7 @@ void Game::drawInfo() {
 	int mid = _termWidth/2;
 	for (int i = 0; i < _player->getHp(); i++){
 		mvwprintw(w_info, 1, mid, "❤️");
-		mid += 3;
+		mid += 4;
 	}
 }
 
@@ -78,6 +78,14 @@ Game::Game() {
     for (int i = 0; i < SIMPLE_ENEMY_MAX; i++) {
         _enemies_simple[i] = new SimpleEnemy(w_main);
     }
+    for (int j = 0; j < ENEMY_BULLETS_MAX; j++) {
+        _enemies_bullets[j] = new Bullet(0, 0, 1, w_main);
+    }
+
+    for (int k = 0; k < MIDDLE_ENEMY_MAX; k++) {
+        _enemies_middle[k] = new MiddleEnemy(w_main, _enemies_bullets);
+    }
+
 }
 
 void Game::run() {
@@ -227,7 +235,8 @@ void Game::drawFinalScreen() {
 
     while (1) {
         wattron(w_main, COLOR_PAIR(TEXT_YELLOW));
-        mvwprintw(w_main, 10, 10, "FINISH MSG");
+        mvwprintw(w_main, 10, 10, "YOU DIE =(");
+        mvwprintw(w_main, 11, 10, "SCORE %d", _player->getScore());
         wrefresh(w_main);
         int key = wgetch(stdscr);
         if (key > 0)
