@@ -186,7 +186,7 @@ void Game::addEnemies() {
         }
     }
 
-    if (_player->getScore() > 1 && !_boss->getVisible() && _iter % 1000 == 0) {
+    if (_player->getScore() > 5 && !_boss->getVisible() && _iter % 1000 == 0) {
         _boss->upgradeLvl();
         _boss->setVisible(1);
 

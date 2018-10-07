@@ -1,5 +1,19 @@
 #include "HardEnemy.hpp"
 
+HardEnemy::HardEnemy() {}
+HardEnemy::~HardEnemy() {}
+
+HardEnemy::HardEnemy(HardEnemy const &src) {
+    *this = src;
+}
+
+HardEnemy& HardEnemy::operator=(HardEnemy const &src) {
+    _lvl = src._lvl;
+    _hp = src._hp;
+
+    return *this;
+}
+
 HardEnemy::HardEnemy(WINDOW *win, Bullet **bullets, Player *pl) {
     w_main = win;
     _bullets = bullets;
