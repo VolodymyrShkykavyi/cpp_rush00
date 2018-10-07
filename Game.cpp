@@ -48,11 +48,20 @@ void Game::drawInfo() {
         }
         mvwprintw(w_info, 1, 0, "༓");
         mvwprintw(w_info, 1, _termWidth - 1, "༓");
-    }
-    //lives
-    //scores
-    //time
-    //pause status ?
+
+	}
+	unsigned seconds = difftime(time(0), _player->getTime());
+	mvwprintw(w_info, 1, 2, "Time in game: %d:%0.2d", seconds / 60, seconds % 60);
+	mvwprintw(w_info, 1, _termWidth - 6, "%d", _player->getHp());
+	// for (int i = 0; i < _player->getHp(); i++){
+	// 	mvwprintw(w_info, 1, , "❤️");
+	// 	startPos += 3;
+	// }
+
+	//lives
+	//scores
+	//time
+
 }
 
 void Game::drawMain() {
@@ -80,6 +89,7 @@ void Game::run() {
     //first show start menu
     _menu->runStartScreen();
     _game = 1;
+    _player->setTime();
 
     while (1) {
         checkControls();
@@ -137,29 +147,32 @@ Game &Game::operator=(Game const &obj) {
 }
 
 void Game::checkControls() {
-    if (!_game)
-        return;
+	time_t pauseStart = time(0);
 
-    int key = wgetch(stdscr);
-    switch (key) {
-        case KEY_UP:
-            _player->moveUp();
-            break;
-        case KEY_DOWN:
-            _player->moveDown();
-            break;
-        case KEY_LEFT:
-            _player->moveLeft();
-            break;
-        case KEY_RIGHT:
-            _player->moveRight();
-            break;
-        case 27: //esc
-            if (_game) {
-                _pause = 1;
-                _menu->runPause();
-            }
-            break;
+	if (!_game)
+		return;
+
+	int key = wgetch(stdscr);
+	switch (key) {
+		case KEY_UP:
+			_player->moveUp();
+			break;
+		case KEY_DOWN:
+			_player->moveDown();
+			break;
+		case KEY_LEFT:
+			_player->moveLeft();
+			break;
+		case KEY_RIGHT:
+			_player->moveRight();
+			break;
+		case 27: //esc
+			if (_game) {
+				_pause = 1;
+				_menu->runPause();
+				_player->fixPauseTime(difftime(time(0), pauseStart));
+			}
+			break;
         case ' ':
             _player->shoot();
             break;

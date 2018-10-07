@@ -101,3 +101,16 @@ Player::~Player() {
     for (int i = 0; i < PLAYER_BULLETS_NUM; i++)
         delete _bullets[i];
 }
+
+void	Player::setTime() {
+	_timeSet = time(0);
+}
+
+time_t	Player::getTime() {
+	return (this->_timeSet);
+}
+
+void	Player::fixPauseTime( time_t pauseTime ) {
+	this->_timeSet += pauseTime;
+}
+

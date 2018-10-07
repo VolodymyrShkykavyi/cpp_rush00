@@ -10,13 +10,15 @@ class Player
 {
 private:
     std::string _ico;
-    int _xPos;
-    int _yPos;
-    int _winHeight;
-    int _winWidth;
-    int _score;
-    int _hp;
-    int _speed;
+    int		_xPos;
+    int		_yPos;
+    int		_winHeight;
+    int		_winWidth;
+    int		_score;
+    int		_hp;
+	int		_speed;
+	time_t	_timeSet;
+
     WINDOW  *_win;
     Bullet  *_bullets[PLAYER_BULLETS_NUM];
 
@@ -30,6 +32,9 @@ public:
     int getHp();
     int getSpeed();
     Bullet  **getBullets();
+    void	setTime();
+    void	fixPauseTime( time_t );
+    time_t	getTime();
 
     void addScore(int val);
     void moveUp();
@@ -40,6 +45,7 @@ public:
     void draw();
     void updateWindowSize();
     void reduceHP();
+
 };
 
 #endif
