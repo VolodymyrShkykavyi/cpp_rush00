@@ -6,6 +6,7 @@
 #define INFO_HEIGHT 3
 #define TEXT_GREEN 2
 #define TEXT_WHITE 1
+#define SIMPLE_ENEMY_MAX 50
 
 #include <iostream>
 #include <string>
@@ -16,6 +17,8 @@
 
 #include "Player.hpp"
 #include "Menu.hpp"
+#include "SimpleEnemy.hpp"
+
 
 class Menu;
 class Game
@@ -29,12 +32,18 @@ private:
     int _termHeight;
 
     Player  *_player;
+    SimpleEnemy *_enemies_simple[SIMPLE_ENEMY_MAX];
     Menu    *_menu;
 
     void    initNcurses();
     void    drawInfo();
     void    drawMain();
+    void    drawFinalScreen();
     void    checkControls();
+    void    checkBulletCollision();
+    void    checkEnemyCollision();
+    void    addEnemies();
+    void    moveEnemies();
 
 public:
     Game();

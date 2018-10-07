@@ -1,5 +1,5 @@
 NAME = ft_retro
-SRC = main.cpp Game.cpp Player.cpp Menu.cpp Bullet.cpp MovableObject.cpp
+SRC = main.cpp Game.cpp Player.cpp Menu.cpp Bullet.cpp MovableObject.cpp Enemy.cpp SimpleEnemy.cpp
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.cpp=.o))
 OBJ_DIR = objects
 CC = clang++

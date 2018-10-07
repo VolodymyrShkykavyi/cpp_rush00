@@ -28,8 +28,10 @@ public:
     int getY();
     int getScore();
     int getHp();
-
     int getSpeed();
+    Bullet  **getBullets();
+
+    void addScore(int val);
     void moveUp();
     void moveDown();
     void moveLeft();
@@ -37,7 +39,7 @@ public:
     void shoot();
     void draw();
     void updateWindowSize();
-
+    void reduceHP();
 };
 
 #endif

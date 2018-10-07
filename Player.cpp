@@ -2,9 +2,10 @@
 
 Player::Player(WINDOW *win) {
     _ico = "📟";
-//_ico = "0";
+//_ico = "▲";
     _win = win;
     _speed = 1;
+    _hp = 3;
     updateWindowSize();
     _xPos = _winWidth / 2;
     _yPos = _winHeight - 2;
@@ -44,6 +45,8 @@ void Player::draw() {
     for(int i = 0; i < PLAYER_BULLETS_NUM; i++){
         if (_bullets[i]->getVisIble()) {
             _bullets[i]->move();
+            if (_bullets[i]->getY() < 0)
+                _bullets[i]->setVisible(0);
             _bullets[i]->draw();
         }
     }
@@ -54,12 +57,20 @@ void Player::shoot() {
         if (!_bullets[i]->getVisIble()){
             _bullets[i]->setVisible(1);
             _bullets[i]->setX(_xPos);
-            _bullets[i]->setY(_yPos - 1);
+            _bullets[i]->setY(_yPos);
             return;
         }
     }
 }
 
+void Player::reduceHP() {
+    if (_hp > 0)
+        _hp--;
+}
+
+void Player::addScore(int val) {
+    _score += val;
+}
 
 //getters
 int Player::getHp() {
@@ -82,6 +93,9 @@ int Player::getSpeed() {
     return _speed;
 }
 
+Bullet** Player::getBullets() {
+    return  _bullets;
+}
 
 Player::~Player() {
     for (int i = 0; i < PLAYER_BULLETS_NUM; i++)
