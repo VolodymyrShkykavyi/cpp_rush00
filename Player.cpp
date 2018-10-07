@@ -116,3 +116,16 @@ void	Player::fixPauseTime( time_t pauseTime ) {
 	this->_timeSet += pauseTime;
 }
 
+Player::Player() {}
+Player::Player(Player const &src) {
+    *this = src;
+}
+
+Player& Player::operator=(Player &src) {
+    _hp = src._hp;
+    _score = src._score;
+    _xPos = src._xPos;
+    _yPos = src._yPos;
+
+    return *this;
+}

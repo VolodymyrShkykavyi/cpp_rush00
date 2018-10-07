@@ -28,9 +28,13 @@ private:
     WINDOW  *_win;
     Bullet  *_bullets[PLAYER_BULLETS_NUM];
 
+    Player();
+
 public:
     Player(WINDOW  *win);
 
+    Player(Player const &src);
+    Player &operator=(Player &src);
     ~Player();
     int getX();
     int getY();

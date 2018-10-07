@@ -129,3 +129,15 @@ void Menu::runStartScreen() {
 		}
 	}
 }
+
+Menu::Menu() {}
+Menu::~Menu() {}
+Menu::Menu(Menu const &src) {
+    *this = src;
+}
+
+Menu& Menu::operator=(Menu &src) {
+    _game = src._game;
+
+    return *this;
+}
