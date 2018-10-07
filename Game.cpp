@@ -49,6 +49,14 @@ void Game::drawInfo() {
 	    mvwprintw(w_info, 1, 0, "༓");
         mvwprintw(w_info, 1, _termWidth - 1, "༓");
 	}
+	unsigned seconds = difftime(time(0), _player->getTime());
+	mvwprintw(w_info, 1, 2, "Time in game: %d:%0.2d", seconds / 60, seconds % 60);
+	mvwprintw(w_info, 1, _termWidth - 6, "%d", _player->getHp());
+	// for (int i = 0; i < _player->getHp(); i++){
+	// 	mvwprintw(w_info, 1, , "❤️");
+	// 	startPos += 3;
+	// }
+
 	//lives
 	//scores
 	//time
@@ -73,6 +81,7 @@ void Game::run() {
 	//first show start menu
 	_menu->runStartScreen();
     _game = 1;
+	_player->setTime();
 	while (1) {
 		checkControls();
 		//more checks
@@ -105,6 +114,8 @@ Game &Game::operator=(Game const &obj) {
 }
 
 void Game::checkControls() {
+	time_t pauseStart = time(0);
+
 	if (!_game)
 		return;
 
@@ -126,6 +137,7 @@ void Game::checkControls() {
 			if (_game) {
 				_pause = 1;
 				_menu->runPause();
+				_player->fixPauseTime(difftime(time(0), pauseStart));
 			}
 			break;
         case ' ':
