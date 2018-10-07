@@ -8,7 +8,7 @@ void SimpleEnemy::setDefaults() {
     _hp = 1;
     _scoreCost = 1;
     _visible = 0;
-    _speed = 1;
+    _speed = 10;
     _direction = 1;
     _xPos = rand() % termWidth;
     _yPos = 0;

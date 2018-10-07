@@ -37,6 +37,7 @@ private:
     bool _game;
     int _termWidth;
     int _termHeight;
+	unsigned int _iter;
 
     Player  *_player;
     SimpleEnemy *_enemies_simple[SIMPLE_ENEMY_MAX];

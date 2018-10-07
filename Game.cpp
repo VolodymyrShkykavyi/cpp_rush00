@@ -48,19 +48,20 @@ void Game::drawInfo() {
         mvwprintw(w_info, 1, 0, "༓");
         mvwprintw(w_info, 1, _termWidth - 1, "༓");
 
-	}
-	unsigned seconds = difftime(time(0), _player->getTime());
-	mvwprintw(w_info, 1, 2, "Time in game: %d:%0.2d", seconds / 60, seconds % 60);
-	mvwprintw(w_info, 1, _termWidth - 15, "Score: %d", _player->getScore());
-	
-	int mid = _termWidth/2;
-	for (int i = 0; i < _player->getHp(); ++i){
-		mvwprintw(w_info, 1, mid, "❤️");
-		mid += 4;
-	}
+    }
+    unsigned seconds = difftime(time(0), _player->getTime());
+    mvwprintw(w_info, 1, 2, "Time in game: %d:%0.2d", seconds / 60, seconds % 60);
+    mvwprintw(w_info, 1, _termWidth - 15, "Score: %d", _player->getScore());
+
+    int mid = _termWidth / 2;
+    for (int i = 0; i < _player->getHp(); ++i) {
+        mvwprintw(w_info, 1, mid, "❤️");
+        mid += 4;
+    }
 }
 
 void Game::drawMain() {
+
     addEnemies();
     moveEnemies();
 
@@ -89,7 +90,7 @@ Game::Game() {
 
     for (int l = 0; l < BACKGROUND_MAX; l++) {
         _background[l] = new Enemy();
-        _background[l]->setIco("'");
+        _background[l]->setIco("🌖");
         _background[l]->setWin(w_main);
     }
 
@@ -101,6 +102,7 @@ void Game::run() {
     _menu->runStartScreen();
     _game = 1;
     _player->setTime();
+    _iter = 0;
 
     while (1) {
         checkControls();
@@ -113,7 +115,7 @@ void Game::run() {
         drawInfo();
         wrefresh(this->w_main);
         wrefresh(this->w_info);
-		// usleep(2000);
+        usleep(8000);
     }
 }
 
@@ -122,13 +124,15 @@ void Game::restart() {
     _player = new Player(w_main);
     _game = 1;
 
-    for (int i = 0; i < SIMPLE_ENEMY_MAX; i++){
+    for (int i = 0; i < SIMPLE_ENEMY_MAX; i++) {
         _enemies_simple[i]->setVisible(0);
     }
 }
 
 void Game::addEnemies() {
-//    if (time(0) % 11 == 0) {
+
+    _iter++;
+    if (_iter % 150 == 0) {
         for (int i = 0; i < SIMPLE_ENEMY_MAX; ++i) {
             if (!_enemies_simple[i]->getVisible()) {
                 _enemies_simple[i]->setDefaults();
@@ -138,19 +142,19 @@ void Game::addEnemies() {
         }
 
         for (int j = 0; j < MIDDLE_ENEMY_MAX; j++) {
-            if (!_enemies_middle[j]->getVisible()){
+            if (!_enemies_middle[j]->getVisible()) {
                 _enemies_middle[j]->setDefaults();
                 _enemies_middle[j]->setVisible(1);
                 break;
             }
         }
-//    }
 
-    for (int l = 0; l < BACKGROUND_MAX; l++) {
-        if (!_background[l]->getVisible()){
-            _background[l]->setDefaults();
-            _background[l]->setVisible(1);
-            break;
+        for (int l = 0; l < BACKGROUND_MAX; l++) {
+            if (!_background[l]->getVisible()) {
+                _background[l]->setDefaults();
+                _background[l]->setVisible(1);
+                break;
+            }
         }
     }
 }
@@ -159,7 +163,7 @@ void Game::moveEnemies() {
     //move background first
 
     for (int l = 0; l < BACKGROUND_MAX; l++) {
-        if (_background[l]->getVisible()){
+        if (_background[l]->getVisible()) {
             _background[l]->move();
             _background[l]->draw();
             if (_background[l]->getY() >= _termHeight - INFO_HEIGHT) {
@@ -181,8 +185,8 @@ void Game::moveEnemies() {
     for (int j = 0; j < MIDDLE_ENEMY_MAX; j++) {
         if (_enemies_middle[j]->getVisible()) {
             _enemies_middle[j]->move();
-        //    if (((int)difftime(time(0), _player->getTime()) % 3) == 0)
-                _enemies_middle[j]->shoot(); //enemy shooting
+            //    if (((int)difftime(time(0), _player->getTime()) % 3) == 0)
+            _enemies_middle[j]->shoot(); //enemy shooting
             _enemies_middle[j]->draw();
             if (_enemies_middle[j]->getY() >= _termHeight - INFO_HEIGHT) {
                 _enemies_middle[j]->setVisible(0);
@@ -191,7 +195,7 @@ void Game::moveEnemies() {
     }
 
     for (int k = 0; k < ENEMY_BULLETS_MAX; k++) {
-        if (_enemies_bullets[k]->getVisIble()){
+        if (_enemies_bullets[k]->getVisIble()) {
             _enemies_bullets[k]->move();
             _enemies_bullets[k]->draw();
             if (_enemies_bullets[k]->getY() >= _termHeight - INFO_HEIGHT) {
@@ -214,32 +218,32 @@ Game &Game::operator=(Game const &obj) {
 }
 
 void Game::checkControls() {
-	time_t pauseStart = time(0);
+    time_t pauseStart = time(0);
 
-	if (!_game)
-		return;
+    if (!_game)
+        return;
 
-	int key = wgetch(stdscr);
-	switch (key) {
-		case KEY_UP:
-			_player->moveUp();
-			break;
-		case KEY_DOWN:
-			_player->moveDown();
-			break;
-		case KEY_LEFT:
-			_player->moveLeft();
-			break;
-		case KEY_RIGHT:
-			_player->moveRight();
-			break;
-		case 27: //esc
-			if (_game) {
-				_pause = 1;
-				_menu->runPause();
-				_player->fixPauseTime(difftime(time(0), pauseStart));
-			}
-			break;
+    int key = wgetch(stdscr);
+    switch (key) {
+        case KEY_UP:
+            _player->moveUp();
+            break;
+        case KEY_DOWN:
+            _player->moveDown();
+            break;
+        case KEY_LEFT:
+            _player->moveLeft();
+            break;
+        case KEY_RIGHT:
+            _player->moveRight();
+            break;
+        case 27: //esc
+            if (_game) {
+                _pause = 1;
+                _menu->runPause();
+                _player->fixPauseTime(difftime(time(0), pauseStart));
+            }
+            break;
         case ' ':
             _player->shoot();
             break;
@@ -253,7 +257,7 @@ void Game::checkBulletCollision() {
     for (int i = 0; i < PLAYER_BULLETS_NUM; i++) {
         if (pBullet[i]->getVisIble()) {
             for (int j = 0; j < SIMPLE_ENEMY_MAX; j++) {
-                if (_enemies_simple[j]->getVisible()){
+                if (_enemies_simple[j]->getVisible()) {
                     if (_enemies_simple[j]->getX() == pBullet[i]->getX() &&
                         _enemies_simple[j]->getY() == pBullet[i]->getY()) {
                         pBullet[i]->setVisible(0);
@@ -265,10 +269,10 @@ void Game::checkBulletCollision() {
                 }
             }
 
-            for (int k = 0; k < MIDDLE_ENEMY_MAX ; k++) {
-                if (_enemies_middle[k]->getVisible()){
+            for (int k = 0; k < MIDDLE_ENEMY_MAX; k++) {
+                if (_enemies_middle[k]->getVisible()) {
                     if (_enemies_middle[k]->getX() == pBullet[i]->getX() &&
-                            _enemies_middle[k]->getY() == pBullet[i]->getY()) {
+                        _enemies_middle[k]->getY() == pBullet[i]->getY()) {
                         pBullet[i]->setVisible(0);
                         _enemies_middle[k]->setVisible(0);
                         _player->addScore(_enemies_middle[k]->getScoreCost());
@@ -281,13 +285,13 @@ void Game::checkBulletCollision() {
     }
 
     for (int k = 0; k < ENEMY_BULLETS_MAX; k++) {
-        if (_enemies_bullets[k]->getVisIble()){
+        if (_enemies_bullets[k]->getVisIble()) {
             if ((_enemies_bullets[k]->getX() >= _player->getX() &&
-                _enemies_bullets[k]->getX() <= _player->getX() + 1) &&
+                 _enemies_bullets[k]->getX() <= _player->getX() + 1) &&
                 _enemies_bullets[k]->getY() == _player->getY()) {
                 _enemies_bullets[k]->setVisible(0);
                 _player->reduceHP();
-                if (_player->getHp() <= 0){
+                if (_player->getHp() <= 0) {
                     drawFinalScreen();
                 }
             }

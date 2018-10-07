@@ -13,7 +13,7 @@ void MiddleEnemy::setDefaults() {
     _hp = 2;
     _scoreCost = 3;
     _visible = 0;
-    _speed = 0.1;
+    _speed = 1;
     _direction = 1;
     _xPos = rand() % termWidth;
     _yPos = 0;
