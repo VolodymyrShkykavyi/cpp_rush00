@@ -1,5 +1,19 @@
 #include "SimpleEnemy.hpp"
 
+SimpleEnemy::SimpleEnemy() {}
+SimpleEnemy::~SimpleEnemy() {}
+
+SimpleEnemy::SimpleEnemy(SimpleEnemy const &src) {
+    *this = src;
+}
+
+SimpleEnemy& SimpleEnemy::operator=(SimpleEnemy &src) {
+    _hp = src._hp;
+    _xPos = src._xPos;
+
+    return *this;
+}
+
 void SimpleEnemy::setDefaults() {
     int     termHeight;
     int     termWidth;
