@@ -201,6 +201,7 @@ void Game::checkEnemyCollision() {
                 _enemies_simple[i]->setVisible(0);
 
                 if (_player->getHp() == 0) {
+                    drawFinalScreen();
                     //TODO: final screen
                 }
                 //TODO: check for end game? immortal for few sec?
@@ -210,6 +211,13 @@ void Game::checkEnemyCollision() {
 }
 
 void Game::drawFinalScreen() {
+    _game = 0;
+    wclear(w_main);
+
+    while (1) {
+        mvwprintw(w_main, 10, 10, "FINISH MSG");
+        wrefresh(w_main);
+    }
 
 }
 
