@@ -30,3 +30,20 @@ void MiddleEnemy::shoot() {
         }
     }
 }
+
+MiddleEnemy::MiddleEnemy() {
+	w_main = NULL;
+    _bullets = NULL;
+}
+
+MiddleEnemy::~MiddleEnemy() {
+	return ;
+}
+
+MiddleEnemy::MiddleEnemy(MiddleEnemy const &src) {
+	*this = src;
+}
+
+MiddleEnemy & MiddleEnemy::operator=(MiddleEnemy const &rhs) {
+	return *this;
+}
