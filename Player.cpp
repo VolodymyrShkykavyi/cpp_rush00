@@ -47,7 +47,9 @@ void Player::draw() {
             _bullets[i]->move();
             if (_bullets[i]->getY() < 0)
                 _bullets[i]->setVisible(0);
+            wattron(_win, COLOR_PAIR(TEXT_YELLOW));
             _bullets[i]->draw();
+            wattron(_win, COLOR_PAIR(TEXT_WHITE));
         }
     }
 }

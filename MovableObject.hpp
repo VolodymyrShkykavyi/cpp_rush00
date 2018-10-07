@@ -33,6 +33,7 @@ public:
     void setDirection(int dir);
     void setSpeed(int speed);
     void setIco(std::string ico);
+    void setWin(WINDOW *win);
 };
 
 #endif

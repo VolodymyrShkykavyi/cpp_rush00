@@ -23,3 +23,10 @@ SimpleEnemy::SimpleEnemy(WINDOW *win) {
     w_main = win;
     setDefaults();
 }
+
+void SimpleEnemy::draw() {
+    wattron(w_main, COLOR_PAIR(TEXT_RED));
+    mvwprintw(w_main, _yPos,_xPos, _ico.c_str());
+    wattron(w_main, COLOR_PAIR(TEXT_WHITE));
+
+}

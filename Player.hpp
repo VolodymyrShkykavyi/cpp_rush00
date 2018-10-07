@@ -4,6 +4,12 @@
 #include <ncurses.h>
 #include <string>
 #include "Bullet.hpp"
+#define TEXT_GREEN 2
+#define TEXT_WHITE 1
+#define TEXT_YELLOW 3
+#define TEXT_RED 4
+#define TEXT_BLUE 5
+
 #define PLAYER_BULLETS_NUM 100
 
 class Player

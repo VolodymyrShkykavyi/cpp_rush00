@@ -13,6 +13,7 @@ public:
     SimpleEnemy(WINDOW *win);
 
     void setDefaults();
+    void draw();
 };
 
 #endif

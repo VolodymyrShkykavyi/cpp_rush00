@@ -25,3 +25,23 @@ void Enemy::reduceHP() {
 int Enemy::getScoreCost() {
     return _scoreCost;
 }
+
+void Enemy::setDefaults() {
+    int     termHeight;
+    int     termWidth;
+
+    getmaxyx(stdscr, termHeight, termWidth);
+    _hp = 1;
+    _visible = 0;
+    _scoreCost = 0;
+    _direction = 1;
+    _speed = 1;
+    _xPos = rand() % termWidth;
+    _yPos = 0;
+}
+
+Enemy::Enemy() {
+    setDefaults();
+}
+
+Enemy::~Enemy() {}

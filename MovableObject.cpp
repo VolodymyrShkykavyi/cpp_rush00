@@ -59,3 +59,7 @@ void MovableObject::setY(int y) {
 void MovableObject::setIco(std::string ico) {
     _ico = ico;
 }
+
+void MovableObject::setWin(WINDOW *win) {
+    w_main = win;
+}

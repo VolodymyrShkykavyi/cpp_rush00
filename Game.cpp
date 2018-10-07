@@ -87,6 +87,12 @@ Game::Game() {
         _enemies_middle[k] = new MiddleEnemy(w_main, _enemies_bullets);
     }
 
+    for (int l = 0; l < BACKGROUND_MAX; l++) {
+        _background[l] = new Enemy();
+        _background[l]->setIco("'");
+        _background[l]->setWin(w_main);
+    }
+
 }
 
 void Game::run() {
@@ -122,7 +128,7 @@ void Game::restart() {
 }
 
 void Game::addEnemies() {
-    if (time(0) % 11 == 0) {
+//    if (time(0) % 11 == 0) {
         for (int i = 0; i < SIMPLE_ENEMY_MAX; ++i) {
             if (!_enemies_simple[i]->getVisible()) {
                 _enemies_simple[i]->setDefaults();
@@ -135,12 +141,33 @@ void Game::addEnemies() {
             if (!_enemies_middle[j]->getVisible()){
                 _enemies_middle[j]->setDefaults();
                 _enemies_middle[j]->setVisible(1);
+                break;
             }
+        }
+//    }
+
+    for (int l = 0; l < BACKGROUND_MAX; l++) {
+        if (!_background[l]->getVisible()){
+            _background[l]->setDefaults();
+            _background[l]->setVisible(1);
+            break;
         }
     }
 }
 
 void Game::moveEnemies() {
+    //move background first
+
+    for (int l = 0; l < BACKGROUND_MAX; l++) {
+        if (_background[l]->getVisible()){
+            _background[l]->move();
+            _background[l]->draw();
+            if (_background[l]->getY() >= _termHeight - INFO_HEIGHT) {
+                _background[l]->setVisible(0);
+            }
+        }
+    }
+
     for (int i = 0; i < SIMPLE_ENEMY_MAX; ++i) {
         if (_enemies_simple[i]->getVisible()) {
             _enemies_simple[i]->move();
