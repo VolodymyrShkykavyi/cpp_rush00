@@ -35,7 +35,7 @@ void Enemy::setDefaults() {
     _visible = 0;
     _scoreCost = 0;
     _direction = 1;
-    _speed = 1;
+    _speed = 0.5;
     _xPos = rand() % termWidth;
     _yPos = 0;
 }

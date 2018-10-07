@@ -31,6 +31,8 @@ void Game::initNcurses() {
     init_pair(TEXT_YELLOW, COLOR_YELLOW, COLOR_BLACK);
     init_pair(TEXT_RED, COLOR_RED, COLOR_BLACK);
     init_pair(TEXT_BLUE, COLOR_BLUE, COLOR_BLACK);
+    init_pair(TEXT_DARK, COLOR_CYAN, COLOR_BLACK);
+
 }
 
 void Game::drawInfo() {
@@ -81,7 +83,7 @@ Game::Game() {
     }
     for (int j = 0; j < ENEMY_BULLETS_MAX; j++) {
         _enemies_bullets[j] = new Bullet(0, 0, 1, w_main);
-        _enemies_bullets[j]->setIco("o");
+        _enemies_bullets[j]->setIco("*");
     }
 
     for (int k = 0; k < MIDDLE_ENEMY_MAX; k++) {
@@ -90,8 +92,13 @@ Game::Game() {
 
     for (int l = 0; l < BACKGROUND_MAX; l++) {
         _background[l] = new Enemy();
-        _background[l]->setIco("🌖");
+        _background[l]->setIco("'");
         _background[l]->setWin(w_main);
+        if (l % 4 == 0){
+            _background[l]->setVisible(1);
+            _background[l]->setX(rand() % _termWidth);
+            _background[l]->setY(rand() % _termHeight);
+        }
     }
 
 }
@@ -149,6 +156,8 @@ void Game::addEnemies() {
             }
         }
 
+    }
+    if (_iter % 200 == 0) {
         for (int l = 0; l < BACKGROUND_MAX; l++) {
             if (!_background[l]->getVisible()) {
                 _background[l]->setDefaults();
@@ -165,7 +174,11 @@ void Game::moveEnemies() {
     for (int l = 0; l < BACKGROUND_MAX; l++) {
         if (_background[l]->getVisible()) {
             _background[l]->move();
+            wattron(w_main, COLOR_PAIR(TEXT_DARK));
+
             _background[l]->draw();
+            wattron(w_main, COLOR_PAIR(TEXT_WHITE));
+
             if (_background[l]->getY() >= _termHeight - INFO_HEIGHT) {
                 _background[l]->setVisible(0);
             }
@@ -185,8 +198,8 @@ void Game::moveEnemies() {
     for (int j = 0; j < MIDDLE_ENEMY_MAX; j++) {
         if (_enemies_middle[j]->getVisible()) {
             _enemies_middle[j]->move();
-            //    if (((int)difftime(time(0), _player->getTime()) % 3) == 0)
-            _enemies_middle[j]->shoot(); //enemy shooting
+            if (_iter % 200 == 0 && rand() % 3 == 0)
+                _enemies_middle[j]->shoot(); //enemy shooting
             _enemies_middle[j]->draw();
             if (_enemies_middle[j]->getY() >= _termHeight - INFO_HEIGHT) {
                 _enemies_middle[j]->setVisible(0);
@@ -271,12 +284,15 @@ void Game::checkBulletCollision() {
 
             for (int k = 0; k < MIDDLE_ENEMY_MAX; k++) {
                 if (_enemies_middle[k]->getVisible()) {
-                    if (_enemies_middle[k]->getX() == pBullet[i]->getX() &&
+                    if ((_enemies_middle[k]->getX() == pBullet[i]->getX() ||
+                            _enemies_middle[k]->getX() + 1 == pBullet[i]->getX())&&
                         _enemies_middle[k]->getY() == pBullet[i]->getY()) {
                         pBullet[i]->setVisible(0);
-                        _enemies_middle[k]->setVisible(0);
-                        _player->addScore(_enemies_middle[k]->getScoreCost());
-
+                        _enemies_middle[k]->reduceHP();
+                        if (_enemies_middle[k]->getHP() <= 0) {
+                            _enemies_middle[k]->setVisible(0);
+                            _player->addScore(_enemies_middle[k]->getScoreCost());
+                        }
                         break;
                     }
                 }

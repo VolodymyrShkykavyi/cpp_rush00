@@ -9,6 +9,7 @@
 #define TEXT_YELLOW 3
 #define TEXT_RED 4
 #define TEXT_BLUE 5
+#define TEXT_DARK 6
 #define SIMPLE_ENEMY_MAX 50
 #define MIDDLE_ENEMY_MAX 10
 #define BACKGROUND_MAX 50
