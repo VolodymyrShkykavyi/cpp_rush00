@@ -51,10 +51,10 @@ void Game::drawInfo() {
 	}
 	unsigned seconds = difftime(time(0), _player->getTime());
 	mvwprintw(w_info, 1, 2, "Time in game: %d:%0.2d", seconds / 60, seconds % 60);
-	mvwprintw(w_info, 1, _termWidth - 6, "%d", _player->getScore());
+	mvwprintw(w_info, 1, _termWidth - 15, "Score: %d", _player->getScore());
 	
 	int mid = _termWidth/2;
-	for (int i = 0; i < _player->getHp(); i++){
+	for (int i = 0; i < _player->getHp(); ++i){
 		mvwprintw(w_info, 1, mid, "❤️");
 		mid += 4;
 	}
@@ -107,6 +107,7 @@ void Game::run() {
         drawInfo();
         wrefresh(this->w_main);
         wrefresh(this->w_info);
+		// usleep(2000);
     }
 }
 
@@ -121,7 +122,7 @@ void Game::restart() {
 }
 
 void Game::addEnemies() {
-    if ( _player->getTime()) {
+    if (time(0) % 11 == 0) {
         for (int i = 0; i < SIMPLE_ENEMY_MAX; ++i) {
             if (!_enemies_simple[i]->getVisible()) {
                 _enemies_simple[i]->setDefaults();
@@ -153,7 +154,7 @@ void Game::moveEnemies() {
     for (int j = 0; j < MIDDLE_ENEMY_MAX; j++) {
         if (_enemies_middle[j]->getVisible()) {
             _enemies_middle[j]->move();
-//            if (_player->getTime() % 2 == 0)
+        //    if (((int)difftime(time(0), _player->getTime()) % 3) == 0)
                 _enemies_middle[j]->shoot(); //enemy shooting
             _enemies_middle[j]->draw();
             if (_enemies_middle[j]->getY() >= _termHeight - INFO_HEIGHT) {
