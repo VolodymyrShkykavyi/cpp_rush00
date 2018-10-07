@@ -255,10 +255,20 @@ Game::~Game() {
     endwin();
 }
 
-Game &Game::operator=(Game const &obj) {
-    _pause = obj._pause;
+Game::Game(Game const &src) {
+	*this = src;
+}
 
-    //TODO: change
+
+Game &Game::operator=(Game const &rhs) {
+
+	this->w_main = rhs.w_main ;
+    this->w_info = rhs.w_info ;
+    this->_pause = rhs._pause ;
+    this->_game = rhs._game ;
+    this->_termWidth = rhs._termWidth ;
+    this->_termHeight = rhs._termHeight ;
+	this->_iter = rhs._iter ;
     return *this;
 }
 

@@ -63,7 +63,7 @@ public:
     Game();
     ~Game();
     Game(Game const &src);
-    Game & operator=(Game const &other);
+    Game & operator=(Game const &rhs);
 
     void    run();
     void    restart();
