@@ -81,7 +81,7 @@ Game::Game() {
     }
     for (int j = 0; j < ENEMY_BULLETS_MAX; j++) {
         _enemies_bullets[j] = new Bullet(0, 0, 1, w_main);
-        _enemies_bullets[j]->setIco("🔥");
+        _enemies_bullets[j]->setIco("o");
     }
 
     for (int k = 0; k < MIDDLE_ENEMY_MAX; k++) {
@@ -172,7 +172,7 @@ void Game::moveEnemies() {
         if (_enemies_bullets[k]->getVisIble()){
             _enemies_bullets[k]->move();
             _enemies_bullets[k]->draw();
-            if (_enemies_bullets[k]->getY() < 0) {
+            if (_enemies_bullets[k]->getY() >= _termHeight - INFO_HEIGHT) {
                 _enemies_bullets[k]->setVisible(0);
             }
         }
@@ -260,8 +260,8 @@ void Game::checkBulletCollision() {
 
     for (int k = 0; k < ENEMY_BULLETS_MAX; k++) {
         if (_enemies_bullets[k]->getVisIble()){
-            if ((_enemies_bullets[k]->getX() == _player->getX() ||
-                _enemies_bullets[k]->getX() == _player->getX() - 1) &&
+            if ((_enemies_bullets[k]->getX() >= _player->getX() &&
+                _enemies_bullets[k]->getX() <= _player->getX() + 1) &&
                 _enemies_bullets[k]->getY() == _player->getY()) {
                 _enemies_bullets[k]->setVisible(0);
                 _player->reduceHP();

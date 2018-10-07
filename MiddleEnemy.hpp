@@ -1,7 +1,7 @@
 #ifndef MIDDLEENEMY_CPP
 #define MIDDLEENEMY_CPP
 
-#define ENEMY_BULLETS_MAX 50
+#define ENEMY_BULLETS_MAX 100
 
 #include "Enemy.hpp"
 #include "Bullet.hpp"

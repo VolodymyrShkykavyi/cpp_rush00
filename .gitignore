@@ -3,3 +3,5 @@ cmake-build-debug/
 a.out
 objects/
 CMakeLists.txt
+ft_retro
+
