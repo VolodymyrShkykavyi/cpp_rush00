@@ -27,6 +27,7 @@
 #include "SimpleEnemy.hpp"
 #include "MiddleEnemy.hpp"
 #include "Enemy.hpp"
+#include "HardEnemy.hpp"
 
 class Menu;
 class Game
@@ -43,6 +44,7 @@ private:
     Player  *_player;
     SimpleEnemy *_enemies_simple[SIMPLE_ENEMY_MAX];
     MiddleEnemy *_enemies_middle[MIDDLE_ENEMY_MAX];
+    HardEnemy *_boss;
     Bullet *_enemies_bullets[ENEMY_BULLETS_MAX];
     Enemy   *_background[BACKGROUND_MAX];
     Menu    *_menu;

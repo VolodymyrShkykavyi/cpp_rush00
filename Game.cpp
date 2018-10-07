@@ -94,12 +94,14 @@ Game::Game() {
         _background[l] = new Enemy();
         _background[l]->setIco("'");
         _background[l]->setWin(w_main);
-        if (l % 4 == 0){
+        if (l % 4 == 0) {
             _background[l]->setVisible(1);
             _background[l]->setX(rand() % _termWidth);
             _background[l]->setY(rand() % _termHeight);
         }
     }
+
+    _boss = new HardEnemy(w_main, _enemies_bullets, _player);
 
 }
 
@@ -127,13 +129,30 @@ void Game::run() {
 }
 
 void Game::restart() {
-    delete _player;
-    _player = new Player(w_main);
+    Bullet **pBullet = _player->getBullets();
+
     _game = 1;
 
     for (int i = 0; i < SIMPLE_ENEMY_MAX; i++) {
         _enemies_simple[i]->setVisible(0);
     }
+
+    for (int j = 0; j < MIDDLE_ENEMY_MAX; j++) {
+        _enemies_middle[j]->setVisible(0);
+    }
+
+    for (int k = 0; k < ENEMY_BULLETS_MAX; k++) {
+        _enemies_bullets[k]->setVisible(0);
+    }
+
+    for (int l = 0; l < PLAYER_BULLETS_NUM; l++) {
+        pBullet[l]->setVisible(0);
+    }
+    _boss->setVisible(0);
+    _boss->setDefaults();
+
+    delete _player;
+    _player = new Player(w_main);
 }
 
 void Game::addEnemies() {
@@ -165,6 +184,12 @@ void Game::addEnemies() {
                 break;
             }
         }
+    }
+
+    if (_player->getScore() > 1 && !_boss->getVisible() && _iter % 1000 == 0) {
+        _boss->upgradeLvl();
+        _boss->setVisible(1);
+
     }
 }
 
@@ -205,6 +230,13 @@ void Game::moveEnemies() {
                 _enemies_middle[j]->setVisible(0);
             }
         }
+    }
+
+    if (_boss->getVisible()) {
+        _boss->move();
+        _boss->draw();
+        if (_iter % 150 == 0)
+            _boss->shoot();
     }
 
     for (int k = 0; k < ENEMY_BULLETS_MAX; k++) {
@@ -285,7 +317,7 @@ void Game::checkBulletCollision() {
             for (int k = 0; k < MIDDLE_ENEMY_MAX; k++) {
                 if (_enemies_middle[k]->getVisible()) {
                     if ((_enemies_middle[k]->getX() == pBullet[i]->getX() ||
-                            _enemies_middle[k]->getX() + 1 == pBullet[i]->getX())&&
+                         _enemies_middle[k]->getX() + 1 == pBullet[i]->getX()) &&
                         _enemies_middle[k]->getY() == pBullet[i]->getY()) {
                         pBullet[i]->setVisible(0);
                         _enemies_middle[k]->reduceHP();
@@ -294,6 +326,19 @@ void Game::checkBulletCollision() {
                             _player->addScore(_enemies_middle[k]->getScoreCost());
                         }
                         break;
+                    }
+                }
+            }
+            if (_boss->getVisible()) {
+
+                if (pBullet[i]->getX() >= _boss->getX() - 2 && pBullet[i]->getX() <= _boss->getX() + 2 &&
+                    pBullet[i]->getY() <= _boss->getY() + 1) {
+                    _boss->reduceHP();
+                    pBullet[i]->setVisible(0);
+                    if (_boss->getHP() <= 0) {
+                        _player->addScore(_boss->getScoreCost());
+                        _boss->setVisible(0);
+                        _boss->upgradeLvl();
                     }
                 }
             }
