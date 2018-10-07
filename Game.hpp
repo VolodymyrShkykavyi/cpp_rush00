@@ -1,5 +1,5 @@
 #ifndef GAME_HPP
-#define GAME_HPP
+# define GAME_HPP
 
 #define MIN_WIDTH 20
 #define MIN_HEIGHT 10
@@ -43,7 +43,7 @@ public:
     Game & operator=(Game const &other);
 
     void    run();
-
+    void    restart();
     bool    getGameStatus();
     bool    getPauseStatus();
 	int		getTermHeight();

@@ -57,6 +57,10 @@ void Menu::runPause() {
 		if (key == 2) {
 			if (_currAction == 1)
 				return;
+			if (_currAction == 2) {
+			    _game->restart();
+                return;
+			}
 			if (_currAction == 3) {
 				endwin();
 				exit(0);
@@ -70,10 +74,11 @@ void Menu::drawMenu() {
 	int	yPos = _game->getTermHeight() / 3;
 	int	xPos = _game->getTermWidth() / 2;
 
-	if (!_game->getGameStatus()) {
+    wattron(stdscr, COLOR_PAIR(TEXT_WHITE));
+    if (!_game->getGameStatus()) {
 		if (_currAction == 0){
-			wattron(stdscr, COLOR_PAIR(TEXT_GREEN));
-			mvwaddstr(stdscr, yPos, xPos - _actions[0].length() / 2 - 2, ">");
+            mvwaddstr(stdscr, yPos, xPos - _actions[0].length() / 2 - 2, ">");
+            wattron(stdscr, COLOR_PAIR(TEXT_GREEN));
 		}
 		mvwaddstr(stdscr, yPos++, xPos - _actions[0].length() / 2, _actions[0].c_str());
 		wattron(stdscr, COLOR_PAIR(TEXT_WHITE));
@@ -84,18 +89,20 @@ void Menu::drawMenu() {
 			wattron(stdscr, COLOR_PAIR(TEXT_GREEN));
 		}
 		mvwaddstr(stdscr, yPos++, xPos - _actions[1].length() / 2, _actions[1].c_str());
-		if (_currAction == 2){
+        wattron(stdscr, COLOR_PAIR(TEXT_WHITE));
+        if (_currAction == 2){
 			mvwaddstr(stdscr, yPos, xPos - _actions[2].length() / 2 - 2, ">");
 			wattron(stdscr, COLOR_PAIR(TEXT_GREEN));
 		}
 		mvwaddstr(stdscr, yPos++, xPos - _actions[2].length() / 2, _actions[2].c_str());
-	}
+        wattron(stdscr, COLOR_PAIR(TEXT_WHITE));
+    }
 	if (_currAction == 3){
 		mvwaddstr(stdscr, yPos + 1, xPos - _actions[3].length() / 2 - 2, ">");
 		wattron(stdscr, COLOR_PAIR(TEXT_GREEN));
 	}
 	mvwaddstr(stdscr, yPos + 1, xPos - _actions[3].length() / 2, _actions[3].c_str());
-
+    wattron(stdscr, COLOR_PAIR(TEXT_WHITE));
 }
 
 void Menu::runStartScreen() {
@@ -112,7 +119,6 @@ void Menu::runStartScreen() {
 			return;
 		}
 		if (key == 2) {
-			//actions
 			if (_currAction == 0) {
 				return;
 			}

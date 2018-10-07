@@ -13,6 +13,7 @@ void Game::initNcurses() {
 	curs_set(0); //no cursor
 	nodelay(stdscr, true);
 	clear();
+	start_color();
 	getmaxyx(stdscr, _termHeight, _termWidth);
 
 	if (_termWidth < MIN_WIDTH || _termHeight < MIN_HEIGHT) {
@@ -34,7 +35,20 @@ void Game::initNcurses() {
 }
 
 void Game::drawInfo() {
-	box(this->w_info, '|', '-');
+	for (int i = 0; i < _termWidth; i++) {
+	    if (i == 0) {
+            mvwprintw(w_info, 2, i, "\\");
+            mvwprintw(w_info, 0, i, "/");
+        } else if (i == _termWidth - 1) {
+            mvwprintw(w_info, 2, i, "/");
+            mvwprintw(w_info, 0, i, "\\");
+        } else {
+            mvwprintw(w_info, 0, i, "‾");
+            mvwprintw(w_info, 2, i, "_");
+	    }
+	    mvwprintw(w_info, 1, 0, "༓");
+        mvwprintw(w_info, 1, _termWidth - 1, "༓");
+	}
 	//lives
 	//scores
 	//time
@@ -72,6 +86,13 @@ void Game::run() {
 	}
 }
 
+void Game::restart() {
+    delete _player;
+    _player = new Player(w_main);
+    _game = 1;
+
+}
+
 Game::~Game() {
 	endwin();
 }
@@ -107,6 +128,9 @@ void Game::checkControls() {
 				_menu->runPause();
 			}
 			break;
+        case ' ':
+            _player->shoot();
+            break;
 	}
 }
 

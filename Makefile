@@ -1,10 +1,10 @@
 NAME = ft_retro
-SRC = main.cpp Game.cpp Player.cpp Menu.cpp
+SRC = main.cpp Game.cpp Player.cpp Menu.cpp Bullet.cpp MovableObject.cpp
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.cpp=.o))
 OBJ_DIR = objects
 CC = clang++
 FLAGS = -Wall -Werror -Wextra
-INCLUDES = -lncurses #$(ncursesw5-config --cflags --libs)
+INCLUDES = -lncurses # $(ncursesw5-config --cflags --libs)
 
 all: $(NAME)
 $(NAME): $(OBJ_DIR) $(OBJ)
