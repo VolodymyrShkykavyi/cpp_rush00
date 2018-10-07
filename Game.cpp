@@ -46,7 +46,7 @@ Game::Game() {
 
 	initNcurses();
 	this->_player = new Player(this->w_main);
-	this->_menu = new Menu(this->w_main, this->w_info);
+	this->_menu = new Menu(this);
 	_pause = 0;
 	_game = 0;
 }
@@ -55,11 +55,12 @@ void Game::run() {
 
 	//first show start menu
 	_menu->runStartScreen();
-
+    _game = 1;
 	while (1) {
 		checkControls();
 		//more checks
 
+        //die ? final screen, any key pressed -> Game::run()
 		wclear(this->w_main);
 		drawMain();
 		drawInfo();
@@ -104,4 +105,12 @@ void Game::checkControls() {
 			}
 			break;
 	}
+}
+
+bool Game::getGameStatus() {
+    return _game;
+}
+
+bool Game::getPauseStatus() {
+    return _pause;
 }

@@ -15,6 +15,7 @@
 #define MIN_HEIGHT 10
 #define INFO_HEIGHT 3
 
+class Menu;
 class Game
 {
 private:
@@ -40,6 +41,9 @@ public:
     Game & operator=(Game const &other);
 
     void    run();
+
+    bool    getGameStatus();
+    bool    getPauseStatus();
 };
 
 #endif
