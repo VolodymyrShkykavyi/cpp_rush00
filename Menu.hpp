@@ -28,7 +28,8 @@ private:
 	void	moveUp();
 public:
 	Menu(Game *game);
-
+    Menu(Menu const &src);
+    Menu &operator=(Menu &src);
 	~Menu();
 
 	void runPause();
