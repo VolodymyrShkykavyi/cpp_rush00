@@ -7,7 +7,7 @@ Bullet::Bullet(int y, int x, int direction, WINDOW  *win) {
     w_main = win;
     _ico = "•";
     _visible = 0;
-    _speed = 1;
+    _speed = 12;
 }
 
 int Bullet::getVisIble() {

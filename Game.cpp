@@ -61,6 +61,7 @@ void Game::drawInfo() {
 }
 
 void Game::drawMain() {
+
     addEnemies();
     moveEnemies();
 
@@ -95,6 +96,7 @@ void Game::run() {
     _menu->runStartScreen();
     _game = 1;
     _player->setTime();
+	_iter = 0;
 
     while (1) {
         checkControls();
@@ -107,7 +109,7 @@ void Game::run() {
         drawInfo();
         wrefresh(this->w_main);
         wrefresh(this->w_info);
-		// usleep(2000);
+		usleep(8000);
     }
 }
 
@@ -122,7 +124,9 @@ void Game::restart() {
 }
 
 void Game::addEnemies() {
-    if (time(0) % 11 == 0) {
+
+	_iter++;
+    if (_iter % 150 == 0) {
         for (int i = 0; i < SIMPLE_ENEMY_MAX; ++i) {
             if (!_enemies_simple[i]->getVisible()) {
                 _enemies_simple[i]->setDefaults();
@@ -135,6 +139,7 @@ void Game::addEnemies() {
             if (!_enemies_middle[j]->getVisible()){
                 _enemies_middle[j]->setDefaults();
                 _enemies_middle[j]->setVisible(1);
+                break;
             }
         }
     }
