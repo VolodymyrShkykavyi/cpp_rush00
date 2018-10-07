@@ -1,6 +1,12 @@
 #ifndef GAME_HPP
 #define GAME_HPP
 
+#define MIN_WIDTH 20
+#define MIN_HEIGHT 10
+#define INFO_HEIGHT 3
+#define TEXT_GREEN 2
+#define TEXT_WHITE 1
+
 #include <iostream>
 #include <string>
 //#include <sys/time.h>
@@ -10,10 +16,6 @@
 
 #include "Player.hpp"
 #include "Menu.hpp"
-
-#define MIN_WIDTH 20
-#define MIN_HEIGHT 10
-#define INFO_HEIGHT 3
 
 class Menu;
 class Game
@@ -44,6 +46,8 @@ public:
 
     bool    getGameStatus();
     bool    getPauseStatus();
+	int		getTermHeight();
+	int		getTermWidth();
 };
 
 #endif

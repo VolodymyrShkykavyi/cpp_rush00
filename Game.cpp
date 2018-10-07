@@ -25,6 +25,9 @@ void Game::initNcurses() {
 	this->w_main = newwin(_termHeight - INFO_HEIGHT, _termWidth, INFO_HEIGHT, 0);
 	this->w_info = newwin(INFO_HEIGHT, _termWidth, 0, 0);
 
+	init_pair(TEXT_GREEN, COLOR_GREEN, COLOR_BLACK);
+	init_pair(TEXT_WHITE, COLOR_WHITE, COLOR_BLACK);
+
 	//init info window
 
 	//init main window
@@ -113,4 +116,12 @@ bool Game::getGameStatus() {
 
 bool Game::getPauseStatus() {
     return _pause;
+}
+
+int Game::getTermHeight() {
+	return _termHeight;
+}
+
+int Game::getTermWidth() {
+	return _termWidth;
 }
