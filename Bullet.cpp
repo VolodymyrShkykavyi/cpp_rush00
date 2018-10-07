@@ -28,3 +28,14 @@ void Bullet::move() {
         _yPos += _direction * (_speed / 200 );
 }
 
+Bullet::~Bullet() {
+	return ;
+}
+
+Bullet::Bullet(Bullet const &src) {
+	*this = src;
+}
+
+Bullet & Bullet::operator=(Bullet const &rhs) {
+    return *this;
+}
