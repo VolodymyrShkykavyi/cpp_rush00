@@ -18,6 +18,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <ncurses.h>
+#include <unistd.h>
 
 #include "Player.hpp"
 #include "Menu.hpp"
