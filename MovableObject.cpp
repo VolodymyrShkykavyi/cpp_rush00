@@ -55,3 +55,7 @@ void MovableObject::setX(int x) {
 void MovableObject::setY(int y) {
     _yPos = y;
 }
+
+void MovableObject::setIco(std::string ico) {
+    _ico = ico;
+}

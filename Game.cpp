@@ -80,6 +80,7 @@ Game::Game() {
     }
     for (int j = 0; j < ENEMY_BULLETS_MAX; j++) {
         _enemies_bullets[j] = new Bullet(0, 0, 1, w_main);
+        _enemies_bullets[j]->setIco("🔥");
     }
 
     for (int k = 0; k < MIDDLE_ENEMY_MAX; k++) {
@@ -120,11 +121,19 @@ void Game::restart() {
 }
 
 void Game::addEnemies() {
-    if (rand() % 10 == 3) {
+    if ( _player->getTime()) {
         for (int i = 0; i < SIMPLE_ENEMY_MAX; ++i) {
             if (!_enemies_simple[i]->getVisible()) {
                 _enemies_simple[i]->setDefaults();
                 _enemies_simple[i]->setVisible(1);
+                break;
+            }
+        }
+
+        for (int j = 0; j < MIDDLE_ENEMY_MAX; j++) {
+            if (!_enemies_middle[j]->getVisible()){
+                _enemies_middle[j]->setDefaults();
+                _enemies_middle[j]->setVisible(1);
             }
         }
     }
@@ -137,6 +146,28 @@ void Game::moveEnemies() {
             _enemies_simple[i]->draw();
             if (_enemies_simple[i]->getY() >= _termHeight - INFO_HEIGHT) {
                 _enemies_simple[i]->setVisible(0);
+            }
+        }
+    }
+
+    for (int j = 0; j < MIDDLE_ENEMY_MAX; j++) {
+        if (_enemies_middle[j]->getVisible()) {
+            _enemies_middle[j]->move();
+//            if (_player->getTime() % 2 == 0)
+                _enemies_middle[j]->shoot(); //enemy shooting
+            _enemies_middle[j]->draw();
+            if (_enemies_middle[j]->getY() >= _termHeight - INFO_HEIGHT) {
+                _enemies_middle[j]->setVisible(0);
+            }
+        }
+    }
+
+    for (int k = 0; k < ENEMY_BULLETS_MAX; k++) {
+        if (_enemies_bullets[k]->getVisIble()){
+            _enemies_bullets[k]->move();
+            _enemies_bullets[k]->draw();
+            if (_enemies_bullets[k]->getY() < 0) {
+                _enemies_bullets[k]->setVisible(0);
             }
         }
     }
@@ -205,6 +236,33 @@ void Game::checkBulletCollision() {
                     }
                 }
             }
+
+            for (int k = 0; k < MIDDLE_ENEMY_MAX ; k++) {
+                if (_enemies_middle[k]->getVisible()){
+                    if (_enemies_middle[k]->getX() == pBullet[i]->getX() &&
+                            _enemies_middle[k]->getY() == pBullet[i]->getY()) {
+                        pBullet[i]->setVisible(0);
+                        _enemies_middle[k]->setVisible(0);
+                        _player->addScore(_enemies_middle[k]->getScoreCost());
+
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    for (int k = 0; k < ENEMY_BULLETS_MAX; k++) {
+        if (_enemies_bullets[k]->getVisIble()){
+            if ((_enemies_bullets[k]->getX() == _player->getX() ||
+                _enemies_bullets[k]->getX() == _player->getX() - 1) &&
+                _enemies_bullets[k]->getY() == _player->getY()) {
+                _enemies_bullets[k]->setVisible(0);
+                _player->reduceHP();
+                if (_player->getHp() <= 0){
+                    drawFinalScreen();
+                }
+            }
         }
     }
 }
@@ -224,7 +282,21 @@ void Game::checkEnemyCollision() {
                 if (_player->getHp() == 0) {
                     drawFinalScreen();
                 }
-                //TODO: check for end game? immortal for few sec?
+            }
+        }
+    }
+
+    for (int j = 0; j < MIDDLE_ENEMY_MAX; j++) {
+        if (_enemies_middle[j]->getVisible()) {
+            if ((pX == _enemies_middle[j]->getX() ||
+                 pX == _enemies_middle[j]->getX() - 1) &&
+                pY == _enemies_middle[j]->getY()) {
+                _player->reduceHP();
+                _enemies_middle[j]->setVisible(0);
+
+                if (_player->getHp() == 0) {
+                    drawFinalScreen();
+                }
             }
         }
     }

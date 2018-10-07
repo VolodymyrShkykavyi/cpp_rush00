@@ -32,6 +32,7 @@ public:
     void setY(int y);
     void setDirection(int dir);
     void setSpeed(int speed);
+    void setIco(std::string ico);
 };
 
 #endif

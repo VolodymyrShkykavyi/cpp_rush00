@@ -27,3 +27,4 @@ void Bullet::move() {
     if (_visible)
         _yPos += _direction * (_speed / 200 );
 }
+
