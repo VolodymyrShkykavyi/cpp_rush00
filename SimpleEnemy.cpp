@@ -17,7 +17,7 @@ void SimpleEnemy::setDefaults() {
 }
 
 SimpleEnemy::SimpleEnemy(WINDOW *win) {
-    _icons[0] = "0";
+    _icons[0] = "W";
     _icons[1] = "◈";
     _icons[2] = "▣";
     w_main = win;

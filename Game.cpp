@@ -28,10 +28,9 @@ void Game::initNcurses() {
 
     init_pair(TEXT_GREEN, COLOR_GREEN, COLOR_BLACK);
     init_pair(TEXT_WHITE, COLOR_WHITE, COLOR_BLACK);
-
-    //init info window
-
-    //init main window
+    init_pair(TEXT_YELLOW, COLOR_YELLOW, COLOR_BLACK);
+    init_pair(TEXT_RED, COLOR_RED, COLOR_BLACK);
+    init_pair(TEXT_BLUE, COLOR_BLUE, COLOR_BLACK);
 }
 
 void Game::drawInfo() {
@@ -109,6 +108,9 @@ void Game::restart() {
     _player = new Player(w_main);
     _game = 1;
 
+    for (int i = 0; i < SIMPLE_ENEMY_MAX; i++){
+        _enemies_simple[i]->setVisible(0);
+    }
 }
 
 void Game::addEnemies() {
@@ -215,7 +217,6 @@ void Game::checkEnemyCollision() {
 
                 if (_player->getHp() == 0) {
                     drawFinalScreen();
-                    //TODO: final screen
                 }
                 //TODO: check for end game? immortal for few sec?
             }
@@ -224,14 +225,22 @@ void Game::checkEnemyCollision() {
 }
 
 void Game::drawFinalScreen() {
-    _game = 0;
     wclear(w_main);
 
     while (1) {
+        wattron(w_main, COLOR_PAIR(TEXT_YELLOW));
         mvwprintw(w_main, 10, 10, "FINISH MSG");
         wrefresh(w_main);
-    }
+        int key = wgetch(stdscr);
+        if (key > 0)
+            break;
 
+    }
+    wattron(w_main, COLOR_PAIR(TEXT_WHITE));
+    this->restart();
+    _game = 0;
+    _pause = 0;
+    this->run();
 }
 
 bool Game::getGameStatus() {
